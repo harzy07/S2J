@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="detail-card">
+  <div class="detail-badge {{ item.listing_type }}">{{ item.listing_type.upper() }}</div>
+  <h1>{{ item.title }}</h1>
+  <p class="detail-category">{{ item.category }}</p>
+  <p class="detail-price">
+    {% if item.price > 0 %}₹{{ item.price }}/day{% else %}Free to borrow{% endif %}
+  </p>
+  <p class="detail-description">{{ item.description }}</p>
+
+  <div class="owner-card">
+    <h3>Posted by</h3>
+    <p>👤 {{ item.owner.name }}</p>
+    <p>🏫 {{ item.owner.college }}</p>
+    <p>📞 {{ item.owner.phone }}</p>
+  </div>
+
+  {% if current_user.is_authenticated and current_user.id != item.user_id %}
+    {% if item.available %}
+      {% if existing_request %}
+        <div class="alert success">✅ You already sent a request. Wait for the owner to respond.</div>
+      {% else %}
+        <div class="request-form">
+          <h3>Send a Request</h3>
+          <form method="POST">
+            <textarea name="message" rows="3" placeholder="Hi! I'd like to borrow this for..." required></textarea>
+            <button type="submit">Send Request</button>
+          </form>
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="alert error">❌ This item is currently unavailable.</div>
+    {% endif %}
+  {% elif not current_user.is_authenticated %}
+    <p><a href="/login" class="btn">Login to send a request</a></p>
+  {% endif %}
+</div>
+{% endblock %}

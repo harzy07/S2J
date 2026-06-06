@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-card wide">
+  <h2>Post an Item</h2>
+  <form method="POST" action="/post" enctype="multipart/form-data">
+    <label>Item Title</label>
+    <input type="text" name="title" placeholder="e.g. Engineering Mathematics by RD Sharma" required>
+
+    <label>Description</label>
+    <textarea name="description" rows="4" placeholder="Condition, edition, any details..."></textarea>
+
+    <label>Category</label>
+    <select name="category" required>
+      <option value="">Select category</option>
+      <option value="Books">📚 Books</option>
+      <option value="Electronics">💻 Electronics</option>
+      <option value="Lab Equipment">🔬 Lab Equipment</option>
+      <option value="Other">📦 Other</option>
+    </select>
+
+    <label>Listing Type</label>
+    <select name="listing_type" required>
+      <option value="">Select type</option>
+      <option value="borrow">Borrow (Free)</option>
+      <option value="rent">Rent (Paid per day)</option>
+      <option value="sell">Sell</option>
+    </select>
+
+    <label>Price (₹) — leave 0 if free</label>
+    <input type="number" name="price" value="0" min="0">
+
+    <label>Upload Image (optional)</label>
+    <input type="file" name="image" accept="image/*">
+
+    <button type="submit">Post Item</button>
+  </form>
+</div>
+{% endblock %}

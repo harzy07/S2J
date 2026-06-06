@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>My Dashboard</h2>
+
+<div class="dashboard-grid">
+  <!-- My Posted Items -->
+  <div class="dash-section">
+    <h3>📦 My Posted Items</h3>
+    {% for item in my_items %}
+    <div class="dash-item">
+      <div>
+        <strong>{{ item.title }}</strong>
+        <span class="item-badge {{ item.listing_type }}">{{ item.listing_type }}</span>
+        <span class="status-pill {{ 'available' if item.available else 'unavailable' }}">
+          {{ 'Available' if item.available else 'Borrowed' }}
+        </span>
+      </div>
+      <a href="/item/{{ item.id }}/delete" class="btn-danger"
+         onclick="return confirm('Delete this item?')">Delete</a>
+    </div>
+    {% else %}
+    <p class="empty">You haven't posted anything yet. <a href="/post">Post an item</a></p>
+    {% endfor %}
+  </div>
+
+  <!-- Incoming Requests -->
+  <div class="dash-section">
+    <h3>📬 Incoming Requests</h3>
+    {% for entry in incoming %}
+    <div class="dash-item">
+      <div>
+        <strong>{{ entry.requester.name }}</strong> wants <em>{{ entry.item.title }}</em>
+        <p class="message-preview">{{ entry.request.message }}</p>
+        <span class="status-pill {{ entry.request.status }}">{{ entry.request.status }}</span>
+      </div>
+      {% if entry.request.status == 'pending' %}
+      <div class="action-btns">
+        <a href="/request/{{ entry.request.id }}/accept" class="btn">Accept</a>
+        <a href="/request/{{ entry.request.id }}/reject" class="btn-danger">Reject</a>
+      </div>
+      {% endif %}
+    </div>
+    {% else %}
+    <p class="empty">No incoming requests yet.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
