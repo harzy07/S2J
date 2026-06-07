@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="hero">
+  <h1>Share. Borrow. Save.</h1>
+  <p>Find books, calculators, and lab equipment from students at your college.</p>
+</div>
+
+<div class="search-bar">
+  <form method="GET" action="/">
+    <input type="text" name="search" placeholder="Search items..." value="{{ request.args.get('search', '') }}">
+    <select name="category">
+      <option value="">All Categories</option>
+      <option value="Books" {% if request.args.get('category')=='Books' %}selected{% endif %}>📚 Books</option>
+      <option value="Electronics" {% if request.args.get('category')=='Electronics' %}selected{% endif %}>💻 Electronics</option>
+      <option value="Lab Equipment" {% if request.args.get('category')=='Lab Equipment' %}selected{% endif %}>🔬 Lab Equipment</option>
+      <option value="Other" {% if request.args.get('category')=='Other' %}selected{% endif %}>📦 Other</option>
+    </select>
+    <select name="listing_type">
+      <option value="">All Types</option>
+      <option value="borrow" {% if request.args.get('listing_type')=='borrow' %}selected{% endif %}>Borrow</option>
+      <option value="rent" {% if request.args.get('listing_type')=='rent' %}selected{% endif %}>Rent</option>
+      <option value="sell" {% if request.args.get('listing_type')=='sell' %}selected{% endif %}>Sell</option>
+    </select>
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="items-grid">
+  {% for item in items %}
+  <div class="item-card">
+    <a href="/item/{{ item.id }}">
+      <div class="item-badge {{ item.listing_type }}">{{ item.listing_type.upper() }}</div>
+      <h3>{{ item.title }}</h3>
+      <p class="category">{{ item.category }}</p>
+      <p class="description-preview">{{ item.description[:80] }}...</p>
+      <p class="price">
+        {% if item.price > 0 %}₹{{ item.price }}/day{% else %}Free{% endif %}
+      </p>
+      <p class="owner">👤 {{ item.owner.name }} · {{ item.owner.college }}</p>
+    </a>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <p>😕 No items found.</p>
+    {% if current_user.is_authenticated %}
+      <a href="/post" class="btn">Be the first to post!</a>
+    {% else %}
+      <a href="/register" class="btn">Join and post an item</a>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

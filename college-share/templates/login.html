@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-card">
+  <h2>Welcome Back</h2>
+  <form method="POST" action="/login">
+    <label>Email</label>
+    <input type="email" name="email" placeholder="rahul@college.edu" required>
+
+    <label>Password</label>
+    <input type="password" name="password" placeholder="Your password" required>
+
+    <button type="submit">Login</button>
+  </form>
+  <p class="form-footer">New here? <a href="/register">Create an account</a></p>
+</div>
+{% endblock %}

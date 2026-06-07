@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="form-card">
+  <h2>Create Account</h2>
+  <form method="POST" action="/register">
+    <label>Full Name</label>
+    <input type="text" name="name" placeholder="Rahul Sharma" required>
+
+    <label>Email</label>
+    <input type="email" name="email" placeholder="rahul@college.edu" required>
+
+    <label>Password</label>
+    <input type="password" name="password" placeholder="Min 6 characters" required>
+
+    <label>College Name</label>
+    <input type="text" name="college" placeholder="IIT Delhi" required>
+
+    <label>Phone Number</label>
+    <input type="text" name="phone" placeholder="9876543210" required>
+
+    <button type="submit">Create Account</button>
+  </form>
+  <p class="form-footer">Already have an account? <a href="/login">Login</a></p>
+</div>
+{% endblock %}
